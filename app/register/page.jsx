@@ -9,10 +9,10 @@ import { signIn } from "next-auth/react";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: "test",
+    email: "test@test.com",
+    password: "123",
+    confirmPassword: "123",
     profileImage: null,
   });
 

@@ -24,15 +24,17 @@ const handler = NextAuth({
       async authorize(credentials, req) {
         await connectToDB();
 
+        const { email, password } = credentials;
+
         /* Check if the user exists */
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({ email: email });
 
         if (!user) {
           throw new Error("Invalid Email or Password");
         }
 
         /* Compare password */
-        const isMatch = await compare(credentials.password, user.password);
+        const isMatch = await compare(password, user.password);
 
         if (!isMatch) {
           throw new Error("Invalid Email or Password");

@@ -7,8 +7,8 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@test.com");
+  const [password, setPassword] = useState("123");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -18,9 +18,8 @@ function Login() {
     try {
       const response = await signIn("credentials", {
         redirect: false,
-        email: email,
-        password: password,
-        callbackUrl: "/",
+        email:email,
+        password:password,
       });
       if (response.ok) {
         router.push("/");
@@ -49,7 +48,7 @@ function Login() {
             type="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.email)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             placeholder="Password"
@@ -57,7 +56,7 @@ function Login() {
             type="password"
             required
             value={password}
-            onChange={(e) => setPassword(e.target.password)}
+            onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p className="error">{error}</p>}
           <button type="submit">Login</button>
@@ -66,7 +65,7 @@ function Login() {
           <p>Login with Google</p>
           <FcGoogle />
         </button>
-        <a href="/register">Don't have an account ? Sign in Here</a>
+        <a href="/register">Don't have an account ? Sign Up Here</a>
       </div>
     </div>
   );

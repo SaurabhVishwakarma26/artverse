@@ -12,7 +12,7 @@ export const connectToDB = async () => {
 
   try {
     await mongoose.connect(process.env.MONGO_URL, {
-      dbName: "artify",
+      dbName: "artverse",
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
