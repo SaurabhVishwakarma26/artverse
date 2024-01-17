@@ -1,3 +1,4 @@
+import Provider from "@components/Provider";
 import "@styles/globals.css";
 
 export const metadata = {
@@ -8,7 +9,9 @@ function layout({ children }) {
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
+        <Provider>
+          <main>{children}</main>
+        </Provider>
       </body>
     </html>
   );
