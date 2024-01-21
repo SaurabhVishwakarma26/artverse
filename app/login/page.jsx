@@ -18,8 +18,8 @@ function Login() {
     try {
       const response = await signIn("credentials", {
         redirect: false,
-        email:email,
-        password:password,
+        email: email,
+        password: password,
       });
       if (response.ok) {
         router.push("/");
