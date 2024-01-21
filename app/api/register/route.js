@@ -28,7 +28,7 @@ export async function POST(req) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const profileImagePath = `H:/artverse/public/uploads/${file.name}`;
+    const profileImagePath = `${process.env.ARTVERSE_PATH}/public/uploads/${file.name}`;
     await writeFile(profileImagePath, buffer);
 
     console.log(`open ${profileImagePath} to see the uploaded files`);
