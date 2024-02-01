@@ -30,7 +30,7 @@ export async function POST(req) {
       const buffer = Buffer.from(bytes);
 
       /*Define the destination path for the uploaded file*/
-      const workImagePath = `H:/artverse/public/uploads/${photo.name}`;
+      const workImagePath = `${process.env.ARTVERSE_PATH}/public/uploads/${photo.name}`;
 
       /*Write the buffer to the file system*/
       await writeFile(workImagePath, buffer);
