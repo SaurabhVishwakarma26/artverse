@@ -1,14 +1,16 @@
-import "@styles/Form.scss";
-
 import { categories } from "@data";
 import { IoIosImages } from "react-icons/io";
 import { BiTrash } from "react-icons/bi";
 
-function Form({ title, work, setWork, handleSubmit }) {
-  const handleUploadImage = (e) => {
+import "@styles/Form.scss";
+const Form = ({ type, work, setWork, handleSubmit }) => {
+  const handleUploadPhotos = (e) => {
     const newPhotos = e.target.files;
     setWork((prevWork) => {
-      return { ...prevWork, photos: [...prevWork.photos, ...newPhotos] };
+      return {
+        ...prevWork,
+        photos: [...prevWork.photos, ...newPhotos],
+      };
     });
   };
 
@@ -22,34 +24,35 @@ function Form({ title, work, setWork, handleSubmit }) {
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setWork((prevWork) => {
       return {
         ...prevWork,
-        [e.target.name]: e.target.value,
+        [name]: value,
       };
     });
   };
 
   return (
     <div className="form">
-      <h1>{title} Your Work</h1>
+      <h1>{type} Your Work</h1>
       <form onSubmit={handleSubmit}>
-        <h3>Which of these category best describe your work?</h3>
+        <h3>Which of these categories best describes your work?</h3>
+
         <div className="category-list">
-          {categories.map((item, index) => (
+          {categories?.map((item, index) => (
             <p
-              key={index}
               className={`${work.category === item ? "selected" : ""}`}
-              onClick={() => {
-                setWork({ ...work, category: item });
-              }}
+              key={index}
+              onClick={() => setWork({ ...work, category: item })}
             >
               {item}
             </p>
           ))}
         </div>
 
-        <h3>Add Some Photos of your work</h3>
+        <h3>Add some photos of your work</h3>
+
         {work.photos.length < 1 && (
           <div className="photos">
             <input
@@ -57,17 +60,19 @@ function Form({ title, work, setWork, handleSubmit }) {
               type="file"
               style={{ display: "none" }}
               accept="image/*"
-              onChange={handleUploadImage}
+              onChange={handleUploadPhotos}
               multiple
-            ></input>
+            />
+
             <label htmlFor="image" className="alone">
               <div className="icon">
                 <IoIosImages />
               </div>
-              <p>Upload from your Device</p>
+              <p>Upload from your device</p>
             </label>
           </div>
         )}
+
         {work.photos.length > 0 && (
           <div className="photos">
             {work?.photos?.map((photo, index) => (
@@ -82,60 +87,65 @@ function Form({ title, work, setWork, handleSubmit }) {
                 </button>
               </div>
             ))}
+
             <input
               id="image"
               type="file"
               style={{ display: "none" }}
               accept="image/*"
-              onChange={handleUploadImage}
+              onChange={handleUploadPhotos}
               multiple
-            ></input>
+            />
+
             <label htmlFor="image" className="together">
               <div className="icon">
                 <IoIosImages />
               </div>
-              <p>Upload from your Device</p>
+              <p>Upload from your device</p>
             </label>
           </div>
         )}
-        <h3>What make your work attractive</h3>
+
+        <h3>What make your work attractive?</h3>
         <div className="description">
           <p>Title</p>
           <input
             type="text"
-            value={work.title}
             placeholder="Title"
-            name="title"
             onChange={handleChange}
+            name="title"
+            value={work.title}
             required
           />
+
           <p>Description</p>
           <textarea
             type="text"
-            value={work.description}
             placeholder="Description"
-            name="description"
             onChange={handleChange}
+            name="description"
+            value={work.description}
             required
           />
-          <p>Now Set your Price</p>
+
+          <p>Now, set your PRICE</p>
           <span>$</span>
           <input
-            placeholder="Price"
-            type="number"
-            value={work.price}
-            name="price"
-            required
-            onChange={handleChange}
             className="price"
+            type="number"
+            placeholder="Price"
+            onChange={handleChange}
+            name="price"
+            value={work.price}
+            required
           />
         </div>
-        <button type="submit" className="submit_btn">
-          Publish your work
+        <button className="submit_btn" type="submit">
+          PUBLISH YOUR WORK
         </button>
       </form>
     </div>
   );
-}
+};
 
 export default Form;

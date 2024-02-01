@@ -23,7 +23,10 @@ const WorkCard = ({ work }) => {
   return (
     <div className="work-card">
       <div className="slider-container">
-        <div className="slider">
+        <div
+          className="slider"
+          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        >
           {work.workPhotoPaths?.map((photo, index) => (
             <div className="slide" key={index}>
               <img src={photo} alt="work" />

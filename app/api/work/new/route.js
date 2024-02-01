@@ -1,46 +1,45 @@
 import { connectToDB } from "@mongodb/database";
-import Work from "@models/Work";
 import { writeFile } from "fs/promises";
+import Work from "@models/Work";
 
 export async function POST(req) {
   try {
-    // Connect to database
+    /*Connect to mongo db*/
     await connectToDB();
 
     const data = await req.formData();
-    console.log("data in api", data);
 
-    // Take info from the form
+    /*extract info from the data*/
     const creator = data.get("creator");
     const category = data.get("category");
     const title = data.get("title");
     const description = data.get("description");
     const price = data.get("price");
 
-    //get an array of uploaded phtotos
+    /*Get an array of uploaded photos*/
     const photos = data.getAll("workPhotoPaths");
 
     const workPhotoPaths = [];
 
-    //process and store phtots
+    /*Process and store each photo*/
     for (const photo of photos) {
-      //read the photo as array buffer
+      /*Read the photo as an array buffer*/
       const bytes = await photo.arrayBuffer();
 
-      //conver it to buffer
+      /*Convert it to buffer*/
       const buffer = Buffer.from(bytes);
 
-      //define the destination file path for uploaded file
+      /*Define the destination path for the uploaded file*/
       const workImagePath = `${process.env.ARTVERSE_PATH}/public/uploads/${photo.name}`;
 
-      // write the buffer to file system
+      /*Write the buffer to the file system*/
       await writeFile(workImagePath, buffer);
 
-      // store the file in path array
+      /*Store the file path in an array*/
       workPhotoPaths.push(`/uploads/${photo.name}`);
     }
 
-    //create a new work
+    /*Create a new work*/
     const newWork = new Work({
       creator,
       category,
@@ -51,9 +50,10 @@ export async function POST(req) {
     });
 
     await newWork.save();
+
     return new Response(JSON.stringify(newWork), { status: 200 });
-  } catch (err) {
-    console.log(err);
-    return new Response("failed to create new work", { status: 500 });
+  } catch (error) {
+    console.log(error);
+    return new Response("Failed to create a new work", { status: 500 });
   }
 }
