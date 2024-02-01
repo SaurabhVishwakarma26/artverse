@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react'
 
-function Shop() {
-  return <div>Shop</div>;
+const Shop = () => {
+  return (
+    <div>Shop</div>
+  )
 }
 
-export default Shop;
+export default Shop

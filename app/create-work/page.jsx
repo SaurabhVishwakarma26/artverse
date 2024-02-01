@@ -1,33 +1,34 @@
 "use client";
-
+import React, { useState } from "react";
 import Form from "@components/Form";
 import Navbar from "@components/Navbar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-function CreateWork() {
+const CreateWork = () => {
+  const { data: session } = useSession();
+
+  const router = useRouter();
+
   const [work, setWork] = useState({
     creator: "",
-    category: "",
+    category: "All",
     title: "",
     description: "",
     price: "",
     photos: [],
   });
 
-  const router = useRouter();
-
-  const { data: session } = useSession();
-
   if (session) {
     work.creator = session?.user?._id;
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const newWorkForm = new FormData();
+
       for (var key in work) {
         newWorkForm.append(key, work[key]);
       }
@@ -35,6 +36,7 @@ function CreateWork() {
       work.photos.forEach((photo) => {
         newWorkForm.append("workPhotoPaths", photo);
       });
+
       const response = await fetch("/api/work/new", {
         method: "POST",
         body: newWorkForm,
@@ -43,11 +45,13 @@ function CreateWork() {
       if (response.ok) {
         router.push("/shop");
       }
-    } catch (e) {}
+    } catch (error) {
+      console.log("Publish work failed: " + error.message);
+    }
   };
 
   return (
-    <div>
+    <>
       <Navbar />
       <Form
         type="Create"
@@ -55,8 +59,8 @@ function CreateWork() {
         setWork={setWork}
         handleSubmit={handleSubmit}
       />
-    </div>
+    </>
   );
-}
+};
 
 export default CreateWork;

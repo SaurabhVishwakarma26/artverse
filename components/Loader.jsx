@@ -1,9 +1,11 @@
 import "@styles/Loader.scss";
 
-export const Loader = () => {
+const Loader = () => {
   return (
     <div className="loader">
-      <div className="loader-inner"></div>
+      <div className="inner-loader"></div>
     </div>
   );
 };
+
+export default Loader;
