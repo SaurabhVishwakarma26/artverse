@@ -6,12 +6,18 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import "@styles/Navbar.scss";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
+  const router = useRouter();
 
   const [dropdownMenu, setDropdownMenu] = useState(false);
+  const [query, setQuery] = useState("");
+  const searchWork = () => {
+    router.push(`/search/${query}`);
+  };
 
   return (
     <div className="navbar">
@@ -20,9 +26,13 @@ const Navbar = () => {
       </a>
 
       <div className="navbar_search">
-        <input type="text" placeholder="Search..." />
-        <IconButton>
-          <Search sx={{ color: "red" }} />
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <IconButton disabled={query === ""}>
+          <Search sx={{ color: "red" }} onClick={searchWork} />
         </IconButton>
       </div>
 
